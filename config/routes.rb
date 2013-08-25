@@ -1,4 +1,22 @@
 RailsLoginTemplate::Application.routes.draw do
+
+  namespace :api, :defaults => { :format => 'json' } do
+    namespace :v1 do
+      resource :session, :path => 'sessions', :only => [:new, :create, :destroy] do
+        collection do
+          get 'login', :to => 'sessions#new', :format => :html, :as => :new_api_v1_session
+          post 'login', :to => 'sessions#create', :as => :api_v1_session
+        end
+      end
+    end
+  end
+
+  get "secrets/show"
+
+  get "login.html", :to => 'api/v1/sessions#new', :as => :new_api_v1_session
+
+  mount SimpleAdmin::Engine => '/admin'
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
