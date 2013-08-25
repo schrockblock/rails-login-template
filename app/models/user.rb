@@ -1,7 +1,5 @@
 class User < ActiveRecord::Base
-  #has_secure_password
-
-  has_many :devices, :dependent => :destroy
+  has_secure_password
 
   attr_accessible :admin, :api_key, :password, :password_digest, :username
 

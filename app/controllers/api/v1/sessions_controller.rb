@@ -11,9 +11,9 @@ class Api::V1::SessionsController < Api::V1::ApiController
 
   def create
     s = "started with param[:name]=#{params[:session][:username]}, "
-    @user = User.where("username = '#{params[:session][:username]}' AND password = '#{params[:session][:password]}'").first
+    @user = User.where(:username => params[:session][:username]).first
     s += "found user: #{@user.username}, " if @user
-    if @user
+    if @user && @user.authenticate(params[:session][:password])
       @current_user = @user
       s += "authenticated"
       if params[:session][:html]
